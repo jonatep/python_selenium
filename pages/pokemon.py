@@ -9,6 +9,7 @@ last_move = "//table[contains(@class, 'movnivel')]//tr[.//a[contains(@title, 'TY
 location_by_generation = "//span[@id='Localización']/following::a[contains(text(), 'GENERATION')][1]/following::a[@title='Pokémon salvaje'][1]/following::a[1]"
 egg_move_list = "//table[contains(@class, 'movhuevo')]//tr[.//a[contains(@title, 'EGG_POKEMON')]]//td[count(//table[contains(@class, 'movhuevo')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
 evolucion_list = "//span[@id='Evolución']/following::table[@class='evolucion']//td[@class='flecha']"
+weak_types_list = "//span[@id='Debilidades_y_resistencias']/following::table[contains(@class, 'tabpokemon')]//tr[.//td[contains(text(), 'ébil')]]//td[count(//span[@id='Debilidades_y_resistencias']/following::table[contains(@class, 'tabpokemon')]//tr[.//th[contains(text(), 'Tipos')]/preceding-sibling::th])+2]//a"
 
 def browse_to_wikidex():
     driver.get("https://www.wikidex.net/")
@@ -31,3 +32,6 @@ def get_egg_moves_by_parent(pokemon):
 
 def get_evolutions():
     return [nivel.text.replace('\n', ' ').strip() for nivel in driver.find_elements(By.XPATH, evolucion_list)]
+
+def get_debilities():
+    return [type.get_attribute('title').replace('Tipo ', '').strip() for type in driver.find_elements(By.XPATH, weak_types_list)]

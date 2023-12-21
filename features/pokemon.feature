@@ -23,7 +23,6 @@ Feature: testing around the wikidex website
         |Starly|Arceus|Pradera Obsidiana|
         |Croagunk|Negro 2|Ruta 8|
 
-    @test
     Scenario Outline: egg moves
         Given I have opened the wikidex website
         When I search for the Pokemon <pokemon>
@@ -35,7 +34,6 @@ Feature: testing around the wikidex website
         |Bidoof|Psyduck|Golpes furia, Hidrochorro|
         |Rowlet|Togetic|Relevo|
 
-    @test
     Scenario Outline: levels of evolution
         Given I have opened the wikidex website
         When I search for the Pokemon <pokemon>
@@ -45,3 +43,14 @@ Feature: testing around the wikidex website
         |pokemon|levels|
         |Bidoof|Nivel 15|
         |Poliwag|Nivel 25, Piedra agua, Intercambio equipado con roca del rey|
+
+    @test
+    Scenario Outline: debilities
+        Given I have opened the wikidex website
+        When I search for the Pokemon <pokemon>
+        Then I can assert that its debilities are <debilities>
+
+    Examples: Pokemons
+        |pokemon|debilities|
+        |Tyranitar|Lucha, Acero, Agua, Bicho, Hada, Planta, Tierra|
+        |Delibird|Roca, Acero, Eléctrico, Fuego|
