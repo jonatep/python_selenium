@@ -1,3 +1,7 @@
 .venv
 pages/__pycache__/*
 .vscode/*
+package*
+reports/*
+node_modules/*
+allure-report/*
