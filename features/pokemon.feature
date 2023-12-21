@@ -10,3 +10,14 @@ Feature: testing around the wikidex website
         |Gliscor|Danza espada|
         |Piplup|Ataque furia|
         |Smoliv|Pulso de campo|
+
+    Scenario Outline: location by generation
+        Given I have opened the wikidex website
+        When I search for the Pokemon <pokemon>
+        Then I can assert that its location in the game <game> is <location>
+
+    Examples: Pokemons
+        |pokemon|game|location|
+        |Pikachu|Escudo|Ruta 4|
+        |Starly|Arceus|Pradera Obsidiana|
+        |Croagunk|Negro 2|Ruta 8|
