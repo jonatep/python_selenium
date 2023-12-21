@@ -33,3 +33,15 @@ Feature: testing around the wikidex website
         |pokemon|egg_pokemon|moves|
         |Dreepy|Yamask|Anulación, Maldición, Rabia|
         |Bidoof|Psyduck|Golpes furia, Hidrochorro|
+        |Rowlet|Togetic|Relevo|
+
+    @test
+    Scenario Outline: levels of evolution
+        Given I have opened the wikidex website
+        When I search for the Pokemon <pokemon>
+        Then I can assert that its levels of evolution are <levels>
+
+    Examples: Pokemons
+        |pokemon|levels|
+        |Bidoof|Nivel 15|
+        |Poliwag|Nivel 25, Piedra agua, Intercambio equipado con roca del rey|

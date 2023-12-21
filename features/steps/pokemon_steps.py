@@ -23,3 +23,10 @@ def step_impl(context, egg_pokemon, moves):
     moves = moves.split(', ')
     time.sleep(0.1)
     assert set(pokemon_driver.get_egg_moves_by_parent(egg_pokemon)) == set(moves)
+    
+
+@then('I can assert that its levels of evolution are {levels}')
+def step_impl(context, levels):
+    levels = levels.split(', ')
+    assert set(pokemon_driver.get_evolutions()) == set(levels)
+
