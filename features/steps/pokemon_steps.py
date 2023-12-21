@@ -1,5 +1,6 @@
 from behave import *
 from pages import pokemon as pokemon_driver
+import time
 
 @given('I have opened the wikidex website')
 def step_impl(context):
@@ -17,3 +18,8 @@ def step_impl(context, attack_type, move):
 def step_impl(context, game, location):
     assert pokemon_driver.get_location_by_generation(game) == location    
 
+@then('I can assert that the egg moves that it can learn with {egg_pokemon} are {moves}')
+def step_impl(context, egg_pokemon, moves):
+    moves = moves.split(', ')
+    time.sleep(0.1)
+    assert set(pokemon_driver.get_egg_moves_by_parent(egg_pokemon)) == set(moves)
