@@ -12,7 +12,7 @@ def browse_to_wikidex():
     
 def search_for_pokemon(pokemon):
     driver.find_element(By.XPATH, search_bar).send_keys(pokemon)
-    driver.find_element(By.XPATH, search_button).click()
+    driver.find_element(By.XPATH, search_bar).send_keys(Keys.RETURN)
     
 def get_last_normal_type_move():
     return driver.find_element(By.XPATH, last_normal_type_move).text
