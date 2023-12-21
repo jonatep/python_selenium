@@ -44,7 +44,6 @@ Feature: testing around the wikidex website
         |Bidoof|Nivel 15|
         |Poliwag|Nivel 25, Piedra agua, Intercambio equipado con roca del rey|
 
-    @test
     Scenario Outline: debilities
         Given I have opened the wikidex website
         When I search for the Pokemon <pokemon>
@@ -54,3 +53,13 @@ Feature: testing around the wikidex website
         |pokemon|debilities|
         |Tyranitar|Lucha, Acero, Agua, Bicho, Hada, Planta, Tierra|
         |Delibird|Roca, Acero, Eléctrico, Fuego|
+
+    @test
+    Scenario Outline: navigate to events 
+        Given I have opened the wikidex website
+        When I navigate to Pokemon GO and click on the events from <year>
+        Then I can assert that the event <event> started on <date>
+
+    Examples: Events
+        |event|year|date|
+        |Semana de la moda|2023|15/10/2023|

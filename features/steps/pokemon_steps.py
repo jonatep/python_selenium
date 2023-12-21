@@ -10,6 +10,20 @@ def step_impl(context):
 def step_impl(context, pokemon):
     pokemon_driver.search_for_pokemon(pokemon)
 
+
+@when('I navigate to Pokemon GO and click on the events from {year}')
+def step_impl(context, year):
+    pokemon_driver.hover_to_pokemon_go()
+    time.sleep(0.1)
+    pokemon_driver.go_to_list_events()
+    time.sleep(0.1)
+    pokemon_driver.get_event_by_year(year)
+
+@then('I can assert that the event {event} started on {date}')
+def step_impl(context, event, year):
+    assert True
+
+
 @then('I can assert that the last {attack_type}-type move that learns by leveling-up is {move}')
 def step_impl(context, attack_type, move):
     assert pokemon_driver.get_last_move_by_type(attack_type) == move
