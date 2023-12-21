@@ -9,9 +9,9 @@ def step_impl(context):
 def step_impl(context, pokemon):
     pokemon_driver.search_for_pokemon(pokemon)
 
-@then('I can assert that the last normal-type move that learns by leveling-up is {move}')
-def step_impl(context, move):
-    assert pokemon_driver.get_last_normal_type_move() == move
+@then('I can assert that the last {attack_type}-type move that learns by leveling-up is {move}')
+def step_impl(context, attack_type, move):
+    assert pokemon_driver.get_last_move_by_type(attack_type) == move
 
 @then('I can assert that its location in the game {game} is {location}')
 def step_impl(context, game, location):
