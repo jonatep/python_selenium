@@ -62,4 +62,8 @@ Feature: testing around the wikidex website
 
     Examples: Events
         |event|year|date|
-        |Semana de la moda|2023|15/10/2023|
+        |Semana de la moda|2023|15 de octubre del 2023|
+        |Halloween|2016|20 de octubre del 2017|
+        |Golden Week|2017|29 de abril del 2017|
+        |Ultrabonus|2021|23 de julio del 2021|
+

@@ -19,6 +19,8 @@ violet_link = "//li[@id='n-Pokémon']/ul//a[text()='Videojuegos']/following::a[t
 pokemon_go_link = "//li[@id='n-Pokémon']/ul//a[text()='Videojuegos']/following::a[text()='Pokémon GO']"
 events_list = "//span[@id='Eventos_especiales']/following::a[contains(@title, 'Lista de eventos')]"
 event_by_year = "//div[@id='mw-content-text']//a[contains(@title, YEAR)]"
+button_cookies = "//button[@name='disablecookiewarning']"
+event_start_date = "//span[contains(@id, 'EVENT_START')][1]/following::table[1]//td[./b[contains(text(), 'Desde')] and contains(text(), 'YEAR_EVENT')]"
 
 def browse_to_wikidex():
     driver.get("https://www.wikidex.net/")
@@ -45,36 +47,49 @@ def get_evolutions():
 def get_debilities():
     return [type.get_attribute('title').replace('Tipo ', '').strip() for type in driver.find_elements(By.XPATH, weak_types_list)]
 
+def perform_hover(element_xpath, actions):
+    element = driver.find_element(By.XPATH, element_xpath)
+    actions.move_to_element(element)
+    actions.perform()
+
 def hover_to_pokemon_go():
+
+    time.sleep(1)
     
-    driver.execute_script("window.scrollTo(0, 100)")
+    try:
+        button_cookies_element = driver.find_element(By.XPATH, button_cookies)
+        button_cookies_element.click()
+    except:
+        print('The cookies button has already been pressed')
+    
     actions = ActionChains(driver)
-    pokemon_dropdown_element = driver.find_element(By.XPATH, pokemon_dropdown)
-    actions.move_to_element(pokemon_dropdown_element)
-    actions.perform()
     
-    videogames_dropdown_element = driver.find_element(By.XPATH, videogames_dropdown)
-    actions.move_to_element(videogames_dropdown_element)
-    actions.perform()
-    
-    violet_link_element = driver.find_element(By.XPATH, violet_link)
-    actions.move_to_element(violet_link_element)
-    actions.perform()
-    
+    perform_hover(pokemon_dropdown, actions)
+
+    perform_hover(videogames_dropdown, actions)
+
+    perform_hover(violet_link, actions)
+
+    perform_hover(pokemon_go_link, actions)
     pokemon_go_link_element = driver.find_element(By.XPATH, pokemon_go_link)
-    actions = ActionChains(driver).move_to_element(pokemon_go_link_element)
-    actions.perform()
-      
     pokemon_go_link_element.click()
 
 def go_to_list_events():
     events_list_element = driver.find_element(By.XPATH, events_list)
-    scroll = ActionChains(driver).move_to_element(events_list_element)
-    scroll.perform()
+    #scroll = ActionChains(driver).move_to_element(events_list_element)
+    #scroll.perform()
     events_list_element.click()
 
 def get_event_by_year(year):
     event = event_by_year.replace('YEAR', year)
     event_element = driver.find_element(By.XPATH, event)
     event_element.click()
+    
+def get_event_start_date(event, year):
+    event_table = event_start_date.replace('EVENT_START', event.replace(' ', '_'))
+    event_table = event_table.replace('YEAR_EVENT', year)
+    event_start_date_element = driver.find_element(By.XPATH, event_table)
+    return event_start_date_element.text
+
+
 

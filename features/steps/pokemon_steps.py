@@ -1,6 +1,7 @@
 from behave import *
 from pages import pokemon as pokemon_driver
 import time
+import re
 
 @given('I have opened the wikidex website')
 def step_impl(context):
@@ -20,8 +21,12 @@ def step_impl(context, year):
     pokemon_driver.get_event_by_year(year)
 
 @then('I can assert that the event {event} started on {date}')
-def step_impl(context, event, year):
-    assert True
+def step_impl(context, event, date):
+    year = re.match("\d+ de \w+ del (\d+)", date).group(1)
+    
+    not_formatted_date = pokemon_driver.get_event_start_date(event, year)
+    possible_start_date = not_formatted_date.replace('Desde: ', '').strip()
+    assert possible_start_date == date
 
 
 @then('I can assert that the last {attack_type}-type move that learns by leveling-up is {move}')
