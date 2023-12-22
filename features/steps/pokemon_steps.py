@@ -11,27 +11,24 @@ def step_impl(context):
 def step_impl(context, pokemon):
     pokemon_driver.search_for_pokemon(pokemon)
 
-
 @when('I navigate to Pokemon GO and click on the events from {year}')
 def step_impl(context, year):
     pokemon_driver.hover_to_pokemon_go()
-    time.sleep(0.1)
     pokemon_driver.go_to_list_events()
-    time.sleep(0.1)
     pokemon_driver.get_event_by_year(year)
 
 @then('I can assert that the event {event} started on {date}')
 def step_impl(context, event, date):
-    year = re.match("\d+ de \w+ del (\d+)", date).group(1)
+    year = re.match("\\d+ de \\w+ del (\\d+)", date).group(1)
     
     not_formatted_date = pokemon_driver.get_event_start_date(event, year)
     possible_start_date = not_formatted_date.replace('Desde: ', '').strip()
     assert possible_start_date == date
 
 
-@then('I can assert that the last {attack_type}-type move that learns by leveling-up is {move}')
-def step_impl(context, attack_type, move):
-    assert pokemon_driver.get_last_move_by_type(attack_type) == move
+@then('I can assert that the last {attack_type}-type move that learns by leveling-up in the game {game} is {move}')
+def step_impl(context, attack_type, game, move):
+    assert pokemon_driver.get_last_move_by_type_and_game(game, attack_type) == move
 
 @then('I can assert that its location in the game {game} is {location}')
 def step_impl(context, game, location):

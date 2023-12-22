@@ -8,7 +8,7 @@ driver = webdriver.Chrome('')
 
 search_bar = "//input[@type='search']"
 search_button = "//input[@type='submit'][@value='Ir']"
-last_move = "//table[contains(@class, 'movnivel')]//tr[.//a[contains(@title, 'TYPE_ATTACK')]][last()]//td[count(//table[contains(@class, 'movnivel')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
+last_move = "//article[contains(@id, 'GENERATION')]/table[contains(@class, 'movnivel')]//tr[.//a[contains(@title, 'TYPE_ATTACK')]][last()]//td[count(//article[contains(@id, 'GENERATION')]/table[contains(@class, 'movnivel')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
 location_by_generation = "//span[@id='Localización']/following::a[contains(text(), 'GENERATION')][1]/following::a[@title='Pokémon salvaje'][1]/following::a[1]"
 egg_move_list = "//table[contains(@class, 'movhuevo')]//tr[.//a[contains(@title, 'EGG_POKEMON')]]//td[count(//table[contains(@class, 'movhuevo')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
 evolucion_list = "//span[@id='Evolución']/following::table[@class='evolucion']//td[@class='flecha']"
@@ -21,16 +21,34 @@ events_list = "//span[@id='Eventos_especiales']/following::a[contains(@title, 'L
 event_by_year = "//div[@id='mw-content-text']//a[contains(@title, YEAR)]"
 button_cookies = "//button[@name='disablecookiewarning']"
 event_start_date = "//span[contains(@id, 'EVENT_START')][1]/following::table[1]//td[./b[contains(text(), 'Desde')] and contains(text(), 'YEAR_EVENT')]"
+arrow_generations = "//table[contains(@class, 'movnivel')]/preceding::div[@class='tabber__header__next'][1]"
+button_generation_moves = "//table[contains(@class, 'movnivel')]/preceding::nav[@class='tabber__tabs'][1]//a[contains(@id, 'GENERATION')]"
 
 def browse_to_wikidex():
     driver.get("https://www.wikidex.net/")
-    
+    click_cookies()
+
 def search_for_pokemon(pokemon):
     driver.find_element(By.XPATH, search_bar).send_keys(pokemon)
     driver.find_element(By.XPATH, search_bar).send_keys(Keys.RETURN)
-    
-def get_last_move_by_type(type):
-    move = last_move.replace('TYPE_ATTACK', type)
+
+def click_arrow_next_moves():
+    driver.find_element(By.XPATH, arrow_generations).click()
+
+def select_generation_attack(game):
+    try:
+        time.sleep(.2)
+        button_desired_generation = button_generation_moves.replace('GENERATION', game.replace(' ', '_'))
+        driver.find_element(By.XPATH, button_desired_generation).click()
+    except:
+        click_arrow_next_moves()
+        time.sleep(.2)
+        select_generation_attack(game)
+
+def get_last_move_by_type_and_game(game, type):
+    select_generation_attack(game)
+    time.sleep(.2)
+    move = last_move.replace('TYPE_ATTACK', type).replace('GENERATION', game.replace(' ', '_'))
     return driver.find_element(By.XPATH, move).text
 
 def get_location_by_generation(generation):
@@ -52,32 +70,25 @@ def perform_hover(element_xpath, actions):
     actions.move_to_element(element)
     actions.perform()
 
-def hover_to_pokemon_go():
-
-    time.sleep(1)
-    
+def click_cookies():
     try:
         button_cookies_element = driver.find_element(By.XPATH, button_cookies)
         button_cookies_element.click()
     except:
         print('The cookies button has already been pressed')
-    
+        
+def hover_to_pokemon_go():    
     actions = ActionChains(driver)
-    
     perform_hover(pokemon_dropdown, actions)
-
     perform_hover(videogames_dropdown, actions)
-
     perform_hover(violet_link, actions)
-
     perform_hover(pokemon_go_link, actions)
+    
     pokemon_go_link_element = driver.find_element(By.XPATH, pokemon_go_link)
     pokemon_go_link_element.click()
 
 def go_to_list_events():
     events_list_element = driver.find_element(By.XPATH, events_list)
-    #scroll = ActionChains(driver).move_to_element(events_list_element)
-    #scroll.perform()
     events_list_element.click()
 
 def get_event_by_year(year):

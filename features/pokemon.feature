@@ -1,16 +1,18 @@
+@test
 Feature: testing around the wikidex website
 
-    Scenario Outline: last normal-type move
+    Scenario Outline: last specific-type move by game
         Given I have opened the wikidex website
         When I search for the Pokemon <pokemon>
-        Then I can assert that the last <attack_type>-type move that learns by leveling-up is <move>
+        Then I can assert that the last <attack_type>-type move that learns by leveling-up in the game <game> is <move>
     
     Examples: Pokemons
-        |pokemon|move|attack_type|
-        |Gliscor|Danza espada|normal|
-        |Piplup|Ataque furia|normal|
-        |Smoliv|Pulso de campo|normal|
-        |Togepi|Fuerza lunar|hada|
+        |pokemon|move|game|attack_type|
+        |Snorunt|Triturar|3ª gen|siniestro|
+        |Gliscor|Danza espada|Escarlata y Púrpura|normal|
+        |Piplup|Ataque furia|Escarlata y Púrpura|normal|
+        |Smoliv|Pulso de campo|Escarlata y Púrpura|normal|
+        |Togepi|Fuerza lunar|Arceus|hada|
 
     Scenario Outline: location by generation
         Given I have opened the wikidex website
@@ -54,7 +56,6 @@ Feature: testing around the wikidex website
         |Tyranitar|Lucha, Acero, Agua, Bicho, Hada, Planta, Tierra|
         |Delibird|Roca, Acero, Eléctrico, Fuego|
 
-    @test
     Scenario Outline: navigate to events 
         Given I have opened the wikidex website
         When I navigate to Pokemon GO and click on the events from <year>
