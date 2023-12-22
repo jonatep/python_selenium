@@ -68,7 +68,7 @@ Con la configuración por defecto del ``runner.py`` se generarán reportes acerc
 
 ## 1. Instalación de Allure-Commands
 
-Allure se instala junto al resto de los módulos a través del ``requirements.txt``, pero no es suficiente para generar y visualizar sus reportes. En [la página oficial de Allure](https://allurereport.org/docs/gettingstarted-installation/) hay distintas formas de lograr esto.
+Allure se instala junto al resto de los módulos a través del ``requirements.txt``, pero no es suficiente para generar y visualizar sus reportes. En [la página oficial de Allure](https://allurereport.org/docs/gettingstarted-installation/) hay distintas formas de instalarlo para que la consola de Windows reconozca sus comandos.
 
 ## 2. NPM
 
