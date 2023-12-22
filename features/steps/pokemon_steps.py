@@ -37,7 +37,6 @@ def step_impl(context, game, location):
 @then('I can assert that the egg moves that it can learn with {egg_pokemon} are {moves}')
 def step_impl(context, egg_pokemon, moves):
     moves = moves.split(', ')
-    time.sleep(0.1)
     assert set(pokemon_driver.get_egg_moves_by_parent(egg_pokemon)) == set(moves)
     
 
@@ -51,7 +50,6 @@ def step_impl(context, levels):
 def step_impl(context, debilities):
     debilities = debilities.split(', ')
     debilities = [debility.lower() for debility in debilities]
-    time.sleep(0.1)
     assert set(pokemon_driver.get_debilities()) == set(debilities)
 
 

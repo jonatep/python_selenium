@@ -13,8 +13,10 @@ search_button = "//input[@type='submit'][@value='Ir']"
 last_move = "//article[contains(@id, 'GENERATION')]/table[contains(@class, 'movnivel')]//tr[.//a[contains(@title, 'TYPE_ATTACK')]][last()]//td[count(//article[contains(@id, 'GENERATION')]/table[contains(@class, 'movnivel')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
 location_by_generation = "//span[@id='Localización']/following::a[contains(text(), 'GENERATION')][1]/following::a[@title='Pokémon salvaje'][1]/following::a[1]"
 egg_move_list = "//table[contains(@class, 'movhuevo')]//tr[.//a[contains(@title, 'EGG_POKEMON')]]//td[count(//table[contains(@class, 'movhuevo')]//th[contains(@class, 'movimiento')]/preceding-sibling::th)+1]"
+egg_move_table = "//table[contains(@class, 'movhuevo')]"
 evolucion_list = "//span[@id='Evolución']/following::table[@class='evolucion']//td[@class='flecha']"
 weak_types_list = "//span[@id='Debilidades_y_resistencias']/following::table[contains(@class, 'tabpokemon')]//tr[.//td[contains(text(), 'ébil')]]//td[count(//span[@id='Debilidades_y_resistencias']/following::table[contains(@class, 'tabpokemon')]//tr[.//th[contains(text(), 'Tipos')]/preceding-sibling::th])+2]//a"
+weak_type_table = "//span[@id='Debilidades_y_resistencias']/following::table[contains(@class, 'tabpokemon')]"
 pokemon_dropdown= "//li[@id='n-Pokémon']"
 videogames_dropdown = "//li[@id='n-Pokémon']/ul//a[text()='Videojuegos']"
 violet_link = "//li[@id='n-Pokémon']/ul//a[text()='Videojuegos']/following::a[text()='Escarlata y Púrpura']"
@@ -44,7 +46,7 @@ def select_generation_attack(game):
         driver.find_element(By.XPATH, button_desired_generation).click()
     except:
         click_arrow_next_moves()
-        time.sleep(.3)
+        time.sleep(.4)
         select_generation_attack(game)
 
 def get_last_move_by_type_and_game(game, type):
@@ -59,12 +61,14 @@ def get_location_by_generation(generation):
 
 def get_egg_moves_by_parent(pokemon):
     moves = egg_move_list.replace('EGG_POKEMON', pokemon)
+    wait.until(lambda d : driver.find_element(By.XPATH, egg_move_table).is_displayed())
     return [move.text for move in driver.find_elements(By.XPATH, moves)]
 
 def get_evolutions():
     return [nivel.text.replace('\n', ' ').strip() for nivel in driver.find_elements(By.XPATH, evolucion_list)]
 
 def get_debilities():
+    wait.until(lambda d : driver.find_element(By.XPATH, weak_type_table).is_displayed())
     return [type.get_attribute('title').replace('Tipo ', '').strip() for type in driver.find_elements(By.XPATH, weak_types_list)]
 
 def perform_hover(element_xpath, actions):
