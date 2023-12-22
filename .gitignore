@@ -2,6 +2,6 @@
 pages/__pycache__/*
 .vscode/*
 package*
-reports/*
+allure-results/*
 node_modules/*
 allure-report/*

@@ -72,16 +72,10 @@ Allure se instala junto al resto de los módulos a través del ``requirements.tx
 
 ## 2. NPM
 
-En caso de instalar Allure a través de NPM, como ha sido mi caso, para primero generar los reportes hay que ejecutar los tests con el depurador de VSCode, o ejecutando esta línea:
+Gracias al archivo ``behave.ini`` cada vez que se ejecuten los tests los reportes necesarios se añadirán automáticamente a la carpeta ``allure-results``. En caso de no querer que se generen estos archivos de reportes, hay que borrar el archivo ``behave.ini``
 
-`````python
-behave -f allure_behave.formatter:AllureFormatter -o reports ./features
-`````
+Una vez se ejecuten los tests, se pueden visualizar los análisis. 
 
-En este caso se generarán los JSONs de datos en la carpeta ``reports``.
-
-Una vez los JSONs se ejecuten, se pueden visualizar los análisis. 
-
-``npx allure serve reports``
+``npx allure serve``
 
 Esto creará un directorio temporal donde se almacenará la página web, y la abrirá en el navegador automáticamente.

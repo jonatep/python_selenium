@@ -37,17 +37,17 @@ def click_arrow_next_moves():
 
 def select_generation_attack(game):
     try:
-        time.sleep(.2)
+        time.sleep(.3)
         button_desired_generation = button_generation_moves.replace('GENERATION', game.replace(' ', '_'))
         driver.find_element(By.XPATH, button_desired_generation).click()
     except:
         click_arrow_next_moves()
-        time.sleep(.2)
+        time.sleep(.3)
         select_generation_attack(game)
 
 def get_last_move_by_type_and_game(game, type):
     select_generation_attack(game)
-    time.sleep(.2)
+    time.sleep(.3)
     move = last_move.replace('TYPE_ATTACK', type).replace('GENERATION', game.replace(' ', '_'))
     return driver.find_element(By.XPATH, move).text
 
@@ -101,6 +101,3 @@ def get_event_start_date(event, year):
     event_table = event_table.replace('YEAR_EVENT', year)
     event_start_date_element = driver.find_element(By.XPATH, event_table)
     return event_start_date_element.text
-
-
-
