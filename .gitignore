@@ -5,3 +5,4 @@ package*
 allure-results/*
 node_modules/*
 allure-report/*
+behave.ini

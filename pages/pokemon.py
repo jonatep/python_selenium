@@ -3,8 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.wait import WebDriverWait
 
 driver = webdriver.Chrome('')
+wait = WebDriverWait(driver, timeout=2)
 
 search_bar = "//input[@type='search']"
 search_button = "//input[@type='submit'][@value='Ir']"
@@ -37,8 +39,8 @@ def click_arrow_next_moves():
 
 def select_generation_attack(game):
     try:
-        time.sleep(.3)
         button_desired_generation = button_generation_moves.replace('GENERATION', game.replace(' ', '_'))
+        wait.until(lambda d : driver.find_element(By.XPATH, button_desired_generation).is_displayed())
         driver.find_element(By.XPATH, button_desired_generation).click()
     except:
         click_arrow_next_moves()
@@ -47,8 +49,8 @@ def select_generation_attack(game):
 
 def get_last_move_by_type_and_game(game, type):
     select_generation_attack(game)
-    time.sleep(.3)
     move = last_move.replace('TYPE_ATTACK', type).replace('GENERATION', game.replace(' ', '_'))
+    wait.until(lambda d : driver.find_element(By.XPATH, move).is_displayed())
     return driver.find_element(By.XPATH, move).text
 
 def get_location_by_generation(generation):

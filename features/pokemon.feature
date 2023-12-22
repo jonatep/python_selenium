@@ -1,3 +1,4 @@
+@test
 Feature: testing around the wikidex website
 
     Scenario Outline: last specific-type move by game
@@ -54,8 +55,8 @@ Feature: testing around the wikidex website
         |pokemon|debilities|
         |Tyranitar|Lucha, Acero, Agua, Bicho, Hada, Planta, Tierra|
         |Delibird|Roca, Acero, Eléctrico, Fuego|
+        |Snorlax|Lucha|
         
-    @test
     Scenario Outline: navigate to events 
         Given I have opened the wikidex website
         When I navigate to Pokemon GO and click on the events from <year>
