@@ -6,7 +6,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 
 driver = webdriver.Chrome('')
-wait = WebDriverWait(driver, timeout=2)
+wait = WebDriverWait(driver, timeout=2.5)
 
 search_bar = "//input[@type='search']"
 search_button = "//input[@type='submit'][@value='Ir']"
@@ -46,7 +46,7 @@ def select_generation_attack(game):
         driver.find_element(By.XPATH, button_desired_generation).click()
     except:
         click_arrow_next_moves()
-        time.sleep(.4)
+        driver.implicitly_wait(.1)
         select_generation_attack(game)
 
 def get_last_move_by_type_and_game(game, type):
