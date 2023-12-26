@@ -8,7 +8,6 @@ def step_impl(context):
 @when('I go to a {product}')
 def step_impl(context, product):
     amazon_driver.go_to_product(product)
-    amazon_driver.click_second_and_first_product()
     
 @then('I can assert that, when hovering over variations of the product, the image changes')
 def step_impl(context):
