@@ -12,4 +12,9 @@ def step_impl(context, product):
 @then('I can assert that, when hovering over variations of the product, the image changes')
 def step_impl(context):
     assert amazon_driver.is_image_changing_when_hovering() == True
-    
+
+@then('I can assert that the product shows an accurate discount percent in its price')
+def step_impl(context):
+    assert amazon_driver.is_discount_accurate() == True
+
+

@@ -4,12 +4,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from . import common
+import re
+import math 
 
 driver = webdriver.Chrome('')
 wait = WebDriverWait(driver, timeout=2.5)
+
 variations_to_product = "//div[@id='inline-twister-expander-content-color_name']//li[not(contains(@class, 'swatch-prototype'))]//img"
 main_image_product = "(//div[contains(@class, 'imgTagWrapper')]/img)[1]"
 alternating_image_product = "//li[contains(@class, 'swatch')]//div[contains(@class, 'imgTagWrapper')]/img"
+discount_price_whole = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'a-price-whole')]"
+discount_price_fraction = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'a-price-fraction')]"
+original_price = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'a-text-price')]//span[@aria-hidden]"
+discount = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'savingPriceOverride ')]"
 
 def browse_to_amazon():
     driver.get('https://www.amazon.com')
@@ -30,4 +37,25 @@ def is_image_changing_when_hovering():
         res = res and (previous_image != current_image)
     
     return res
-        
+
+def get_discount(original_price, discounted_price):
+    return (1- (discounted_price / original_price)) * 100       
+
+def is_discount_accurate():
+    try:
+        discount_price_fraction_text = driver.find_element(By.XPATH, discount_price_fraction).text
+    except:
+        print("This product currently doesn't have a discount")
+        return False
+    
+    original_price_text = driver.find_element(By.XPATH, original_price).text    
+    discount_price_whole_text = driver.find_element(By.XPATH, discount_price_whole).text
+    discount_percentage_text = driver.find_element(By.XPATH, discount).text
+    
+    discount_price_text = discount_price_whole_text + "." + discount_price_fraction_text
+    original_price_text = re.findall("\\d+.\\d+", original_price_text)[0]
+    discount_percentage_text = re.findall("\\d+", discount_percentage_text)[0]
+    
+    discount_percentage_shown = get_discount(float(original_price_text), float(discount_price_text))
+     
+    return float(discount_percentage_text) == math.trunc(discount_percentage_shown)
