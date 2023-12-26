@@ -17,4 +17,20 @@ def step_impl(context):
 def step_impl(context):
     assert amazon_driver.is_discount_accurate() == True
 
+@then('If I click on the coupon checkbox, I go to the login page')
+def step_impl(context):
+    amazon_driver.click_on_coupon_checkbox()
+    assert "https://www.amazon.com/ap/signin?" in amazon_driver.get_current_url()
+    
+@when('I go to the previous tab')
+def step_impl(context):
+    amazon_driver.go_to_previous_tab()
+
+# This test will result in a failure, not because of the design of the test itself,
+# but because Amazon doesn't take into account this case when selecting checkboxes
+@then('I can assert that the coupon checkbox is not selected')
+def step_impl(context):
+    assert amazon_driver.is_checkbox_selected() == False
+    
+
 

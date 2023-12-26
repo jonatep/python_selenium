@@ -17,6 +17,8 @@ discount_price_whole = "//div[contains(@id, 'corePriceDisplay')]//span[contains(
 discount_price_fraction = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'a-price-fraction')]"
 original_price = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'a-text-price')]//span[@aria-hidden]"
 discount = "//div[contains(@id, 'corePriceDisplay')]//span[contains(@class, 'savingPriceOverride ')]"
+checkbox_coupon = "//label[contains(@for, 'checkbox')]//i[contains(@class, 'checkbox')]"
+checkbox_input = "//label[contains(@for, 'checkbox')]//input[contains(@id, 'checkbox')]"
 
 def browse_to_amazon():
     driver.get('https://www.amazon.com')
@@ -59,3 +61,17 @@ def is_discount_accurate():
     discount_percentage_shown = get_discount(float(original_price_text), float(discount_price_text))
      
     return float(discount_percentage_text) == math.trunc(discount_percentage_shown)
+
+def click_on_coupon_checkbox():
+    checkbox_coupon_element = driver.find_element(By.XPATH, checkbox_coupon)
+    checkbox_coupon_element.click()
+    
+def get_current_url():
+    return driver.current_url
+
+def go_to_previous_tab():
+    driver.back()
+    
+def is_checkbox_selected():
+    checkbox = driver.find_element(By.XPATH, checkbox_input)
+    return checkbox.is_selected()
