@@ -39,7 +39,7 @@ def wait_until_web_element_is_displayed_by_xpath(xpath):
     wait.until(lambda d : get_web_element_by_xpath(xpath)).is_displayed()
 
 def wait_until_url_does_not_contain_string(string):
-    wait.until(EC.none_of(EC.url_contains("customer-preferences")))
+    wait.until(EC.none_of(EC.url_contains(string)))
 
 def go_to_previous_tab():
     driver.back()
