@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import ElementClickInterceptedException
 from . import common
 
 driver = webdriver.Chrome('')
@@ -49,9 +50,9 @@ def select_generation_attack(game):
         driver.implicitly_wait(.1)
         select_generation_attack(game)
 
-def get_last_move_by_type_and_game(game, type):
+def get_last_move_by_type_and_game(game, type_attack):
     select_generation_attack(game)
-    move = last_move.replace('TYPE_ATTACK', type).replace('GENERATION', game.replace(' ', '_'))
+    move = last_move.replace('TYPE_ATTACK', type_attack).replace('GENERATION', game.replace(' ', '_'))
     wait.until(lambda d : driver.find_element(By.XPATH, move).is_displayed())
     return driver.find_element(By.XPATH, move).text
 
@@ -94,9 +95,12 @@ def hover_to_pokemon_go():
     pokemon_go_link_element.click()
 
 def go_to_list_events():
-    events_list_element = driver.find_element(By.XPATH, events_list)
-    events_list_element.click()
-
+    try:
+        events_list_element = driver.find_element(By.XPATH, events_list)
+        events_list_element.click()
+    except ElementClickInterceptedException:
+        click_cookies()
+        
 def get_event_by_year(year):
     event = event_by_year.replace('YEAR', year)
     event_element = driver.find_element(By.XPATH, event)
