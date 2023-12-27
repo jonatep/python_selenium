@@ -79,3 +79,11 @@ Una vez se ejecuten los tests, se pueden visualizar los análisis.
 ``npx allure serve``
 
 Esto creará un directorio temporal donde se almacenará la página web, y la abrirá en el navegador automáticamente.
+
+# Análisis de código
+
+Para ejecutar el análisis de código de ``pylint``, una vez instalado a través del ``requirements.txt``, ejecutar el siguiente comando:
+
+``pylint <carpeta> --disable=C,R``
+
+Donde ``<carpeta>`` es el nombre de la carpeta a analizar. Por ejemplo, ``pages`` o ``features``. 
