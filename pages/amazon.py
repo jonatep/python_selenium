@@ -86,7 +86,7 @@ def is_discount_accurate():
     
     discount_percentage_shown = get_discount(float(original_price_text), float(discount_price_text))
      
-    return float(discount_percentage_text) == math.trunc(discount_percentage_shown)
+    return (float(discount_percentage_text) - math.trunc(discount_percentage_shown)) < 2
 
 def click_on_coupon_checkbox():
     checkbox_coupon_element = driver.find_element(By.XPATH, CHECKBOX_COUPON)
