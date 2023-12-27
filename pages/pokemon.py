@@ -1,9 +1,9 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
+from . import common
 
 driver = webdriver.Chrome('')
 wait = WebDriverWait(driver, timeout=2.5)
@@ -85,10 +85,10 @@ def click_cookies():
         
 def hover_to_pokemon_go():    
     actions = ActionChains(driver)
-    perform_hover(pokemon_dropdown, actions)
-    perform_hover(videogames_dropdown, actions)
-    perform_hover(violet_link, actions)
-    perform_hover(pokemon_go_link, actions)
+    common.perform_hover_by_xpath(pokemon_dropdown, actions, driver)
+    common.perform_hover_by_xpath(videogames_dropdown, actions, driver)
+    common.perform_hover_by_xpath(violet_link, actions, driver)
+    common.perform_hover_by_xpath(pokemon_go_link, actions, driver)
     
     pokemon_go_link_element = driver.find_element(By.XPATH, pokemon_go_link)
     pokemon_go_link_element.click()

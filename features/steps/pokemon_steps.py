@@ -1,6 +1,5 @@
 from behave import *
 from pages import pokemon as pokemon_driver
-import time
 import re
 
 @given('I have opened the wikidex website')
