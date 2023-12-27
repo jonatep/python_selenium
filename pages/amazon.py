@@ -27,7 +27,7 @@ specific_currency = "//div[contains(@class, 'wrapper')]//li[@role='option' and @
 confirm_currency_button = "(//span[contains(@id, 'save-button')])[1]//input"
 
 def browse_to_amazon():
-    driver.get('https://www.amazon.com')
+    driver.get('https://www.amazon.com/')
 
 def go_to_product(product):
     driver.get(product)
