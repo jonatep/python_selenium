@@ -1,9 +1,9 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from . import common
 import re
 import math 
@@ -46,13 +46,13 @@ def is_image_changing_when_hovering():
     
     return res
 
-def get_discount(original_price, discounted_price):
-    return (1- (discounted_price / original_price)) * 100       
+def get_discount(price, discounted_price):
+    return (1- (discounted_price / price)) * 100       
 
 def is_discount_accurate():
     try:
         discount_price_fraction_text = driver.find_element(By.XPATH, discount_price_fraction).text
-    except:
+    except NoSuchElementException:
         print("This product currently doesn't have a discount")
         return False
     
