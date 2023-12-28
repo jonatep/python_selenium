@@ -1,3 +1,4 @@
+@test
 Feature: Changing image when hovering
     
     Scenario Outline: Check that the main image of a product changes when the cursor is hovering over its variations

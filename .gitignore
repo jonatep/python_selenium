@@ -1,5 +1,6 @@
 .venv
 pages/__pycache__/*
+features/__pycache__/*
 .vscode/*
 package*
 allure-results/*

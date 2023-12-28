@@ -1,3 +1,4 @@
+@test
 Feature: Checking box coupon
     
     Scenario Outline: When clicking on a coupon from an Amazon product, then going back to its page, check if the checkbox is disabled

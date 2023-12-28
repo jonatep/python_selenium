@@ -1,6 +1,5 @@
 from behave import *
 from pages import amazon as amazon_driver
-from pages import common
 
 @given('I have opened Amazon')
 def step_impl(context):
@@ -12,7 +11,7 @@ def step_impl(context, product):
 
 @when('I go to the previous tab')
 def step_impl(context):
-    common.go_to_previous_tab()
+    amazon_driver.driver.go_to_previous_tab()
 
 @when('I select the currency {currency} in the currency dropdown')
 def step_impl(context, currency):
@@ -22,25 +21,29 @@ def step_impl(context, currency):
 @then('I can assert that, when hovering over variations of the product, the image changes')
 def step_impl(context):
     assert amazon_driver.is_image_changing_when_hovering() == True
+    amazon_driver.driver.close_driver()
 
 @then('I can assert that the product shows an accurate discount percent in its price')
 def step_impl(context):
     assert amazon_driver.is_discount_accurate() == True
-
+    amazon_driver.driver.close_driver()
 @then('If I click on the coupon checkbox, I go to the login page')
 def step_impl(context):
     amazon_driver.click_on_coupon_checkbox()
-    assert "https://www.amazon.com/ap/signin?" in common.get_current_url()
+    assert "https://www.amazon.com/ap/signin?" in amazon_driver.driver.get_current_url()
+    amazon_driver.driver.close_driver()
 
 # This test will result in a failure, not because of the design of the test itself,
 # but because Amazon doesn't take into account this case when selecting checkboxes
 @then('I can assert that the coupon checkbox is not selected')
 def step_impl(context):
     assert amazon_driver.is_checkbox_selected() == False
-    
+    amazon_driver.driver.close_driver()
+
 @then('The products are displayed with the currency {currency}')
 def step_impl(context, currency):
     shown_currency = amazon_driver.get_current_currency()
     assert shown_currency == currency
+    amazon_driver.driver.close_driver()
 
     

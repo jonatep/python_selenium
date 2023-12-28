@@ -1,3 +1,4 @@
+@test
 Feature: Wikidex - Navigate to events
 
     Scenario Outline: Navigation through menus to access specific events on an specific year 
