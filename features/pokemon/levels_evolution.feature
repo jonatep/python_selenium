@@ -1,4 +1,4 @@
-@test
+@pokemon
 Feature: Wikidex - Checking levels of evolution
 
     Scenario Outline: Assert the levels and/or methods by which some Pokemon can evolve

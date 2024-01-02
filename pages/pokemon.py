@@ -60,7 +60,6 @@ BUTTON_GENERATION_MOVES = "//table[contains(@class, 'movnivel')]\
 driver = Common()
 
 def browse_to_wikidex():
-    driver.reset()
     driver.go_to_url("https://www.wikidex.net/")
     click_cookies()
 

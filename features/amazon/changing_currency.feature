@@ -1,4 +1,5 @@
 @test
+@amazon
 Feature: Changing currency
     
     Scenario Outline: Try to change the Amazon currency, and check that it has been applied

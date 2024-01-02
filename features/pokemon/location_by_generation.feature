@@ -1,4 +1,4 @@
-@test
+@pokemon
 Feature: Wikidex - Location by generation
 
     Scenario Outline: Assert one of the possible locations for some Pokemon in specific games

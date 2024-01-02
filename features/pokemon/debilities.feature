@@ -1,4 +1,4 @@
-@test
+@pokemon
 Feature: Wikidex - Test debilities of Pokemon
 
     Scenario Outline: Check debilities por certain Pokemon

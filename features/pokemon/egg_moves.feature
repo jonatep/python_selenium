@@ -1,4 +1,4 @@
-@test
+@pokemon
 Feature: Wikidex - Checking egg moves
 
     Scenario Outline: Testing the egg moves of certain pokemon

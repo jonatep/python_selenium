@@ -1,4 +1,4 @@
-@test
+@pokemon
 Feature: Wikidex - Checking last moves
 
     Scenario Outline: Assert the last move learned by an specific Pokemon, in an specific game and of an specific type

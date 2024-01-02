@@ -37,11 +37,9 @@ CONFIRM_CURRENCY_BUTTON = "(//span[contains(@id, 'save-button')])[1]\
 driver = Common()
 
 def browse_to_amazon():
-    driver.reset()
     driver.go_to_url('https://www.amazon.com/')
 
 def go_to_product(product):
-    driver.reset()
     driver.go_to_url(product)
 
 def is_image_changing_when_hovering():

@@ -1,4 +1,4 @@
-@test
+@amazon
 Feature: Checking discount
     
     Scenario Outline: Check that the shown discount percent in an Amazon product is accurate with its actual price
