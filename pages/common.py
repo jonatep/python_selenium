@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -10,8 +11,13 @@ class Common:
         self.reset()
     
     def reset(self):
-        self.driver = webdriver.Chrome('')
-        self.wait = WebDriverWait(self.driver, timeout=2.5)
+        desired_browser = os.environ['DRIVER_BROWSER']
+        desired_timeout = float(os.environ['TIMEOUT'])
+        
+        if desired_browser == 'chrome':
+            self.driver = webdriver.Chrome('')
+        
+        self.wait = WebDriverWait(self.driver, timeout = desired_timeout)
         self.actions = ActionChains(self.driver)
         
     def close_driver(self):

@@ -1,9 +1,13 @@
+import os
 from behave import fixture, use_fixture
 from selenium import webdriver
 from pages.common import Common
 
 AMAZON_TAG = 'amazon'
 POKEMON_TAG = 'pokemon'
+
+os.environ['DRIVER_BROWSER'] = 'chrome'
+os.environ['TIMEOUT'] = '2.5'
 
 def before_scenario(context, scenario):
     if AMAZON_TAG in context.tags:
