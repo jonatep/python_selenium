@@ -6,22 +6,31 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class Common:
-    
+
     def __init__(self):
         self.reset()
-    
+
     def reset(self):
         desired_browser = os.environ['DRIVER_BROWSER']
         desired_timeout = float(os.environ['TIMEOUT'])
-        
+
         if desired_browser == 'chrome':
             self.driver = webdriver.Chrome('')
-        
+
+        elif desired_browser == 'firefox':
+            self.driver = webdriver.Firefox('')
+
+        elif desired_browser == 'edge':
+            self.driver = webdriver.Edge('')
+
+        elif desired_browser == 'safari':
+            self.driver = webdriver.Safari('')
+
         self.wait = WebDriverWait(self.driver, timeout = desired_timeout)
         self.actions = ActionChains(self.driver)
         
     def close_driver(self):
-        self.driver.close()
+        self.driver.quit()
 
     def go_to_url(self, url):
         self.driver.get(url)
