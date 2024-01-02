@@ -2,6 +2,14 @@ from behave import *
 from pages import pokemon as pokemon_driver
 import re
 
+@given('I have started a new pokemon test')
+def step_impl(context):
+    pokemon_driver.driver.reset()
+
+@then('I can close the driver, once the pokemon test is done')
+def step_impl(context):
+    pokemon_driver.driver.close_driver()
+
 @given('I have opened the wikidex website')
 def step_impl(context):
     pokemon_driver.browse_to_wikidex()
@@ -37,19 +45,15 @@ def step_impl(context, game, location):
 def step_impl(context, egg_pokemon, moves):
     moves = moves.split(', ')
     assert set(pokemon_driver.get_egg_moves_by_parent(egg_pokemon)) == set(moves)
-    
+
 
 @then('I can assert that its levels of evolution are {levels}')
 def step_impl(context, levels):
     levels = levels.split(', ')
     assert set(pokemon_driver.get_evolutions()) == set(levels)
-    
 
 @then('I can assert that its debilities are {debilities}')
 def step_impl(context, debilities):
     debilities = debilities.split(', ')
     debilities = [debility.lower() for debility in debilities]
     assert set(pokemon_driver.get_debilities()) == set(debilities)
-
-
-
