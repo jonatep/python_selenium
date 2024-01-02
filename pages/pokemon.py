@@ -1,6 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import ElementClickInterceptedException
-from . import common
+from pages.common import Common
 
 SEARCH_BAR = "//input[@type='search']"
 LAST_MOVE = "//article[contains(@id, 'GENERATION')]\
@@ -57,28 +57,30 @@ BUTTON_GENERATION_MOVES = "//table[contains(@class, 'movnivel')]\
                             /preceding::nav[@class='tabber__tabs'][1]\
                                 //a[contains(@id, 'GENERATION')]"
 
+driver = Common()
+
 def browse_to_wikidex():
-    common.go_to_url("https://www.wikidex.net/")
+    driver.go_to_url("https://www.wikidex.net/")
     click_cookies()
 
 def search_for_pokemon(pokemon):
-    common.send_keys_by_xpath(SEARCH_BAR, pokemon)
-    common.send_keys_by_xpath(SEARCH_BAR, Keys.RETURN)
+    driver.send_keys_by_xpath(SEARCH_BAR, pokemon)
+    driver.send_keys_by_xpath(SEARCH_BAR, Keys.RETURN)
 
 def click_arrow_next_moves():
-    common.click_on_element_by_xpath(ARROW_GENERATIONS)
+    driver.click_on_element_by_xpath(ARROW_GENERATIONS)
 
 def select_generation_attack(game):
     try:
         button_desired_generation = BUTTON_GENERATION_MOVES\
             .replace('GENERATION', game.replace(' ', '_'))
 
-        common.wait_until_web_element_is_displayed_by_xpath(button_desired_generation)
-        common.click_on_element_by_xpath(button_desired_generation)
+        driver.wait_until_web_element_is_displayed_by_xpath(button_desired_generation)
+        driver.click_on_element_by_xpath(button_desired_generation)
 
     except:
         click_arrow_next_moves()
-        common.implicit_wait(.1)
+        driver.implicit_wait(.1)
         select_generation_attack(game)
 
 def get_last_move_by_type_and_game(game, type_attack):
@@ -86,57 +88,57 @@ def get_last_move_by_type_and_game(game, type_attack):
     move = LAST_MOVE.replace('TYPE_ATTACK', type_attack)\
         .replace('GENERATION', game.replace(' ', '_'))
 
-    common.wait_until_web_element_is_displayed_by_xpath(move)
+    driver.wait_until_web_element_is_displayed_by_xpath(move)
 
-    return common.get_text_by_xpath(move)
+    return driver.get_text_by_xpath(move)
 
 def get_location_by_generation(generation):
     location = LOCATION_BY_GENERATION.replace('GENERATION', generation)
-    return common.get_text_by_xpath(location)
+    return driver.get_text_by_xpath(location)
 
 def get_egg_moves_by_parent(pokemon):
     moves = EGG_MOVE_LIST.replace('EGG_POKEMON', pokemon)
-    common.wait_until_web_element_is_displayed_by_xpath(EGG_MOVE_TABLE)
-    return [move.text for move in common.get_web_elements_by_xpath(moves)]
+    driver.wait_until_web_element_is_displayed_by_xpath(EGG_MOVE_TABLE)
+    return [move.text for move in driver.get_web_elements_by_xpath(moves)]
 
 def get_evolutions():
     return [nivel.text.replace('\n', ' ').strip()\
                 for nivel in \
-                    common.get_web_elements_by_xpath(EVOLUTION_LIST)
+                    driver.get_web_elements_by_xpath(EVOLUTION_LIST)
             ]
 
 def get_debilities():
-    common.wait_until_web_element_is_displayed_by_xpath(WEAK_TYPE_TABLE)
+    driver.wait_until_web_element_is_displayed_by_xpath(WEAK_TYPE_TABLE)
     return [type.get_attribute('title').replace('Tipo ', '').strip()\
                 for type in \
-                    common.get_web_elements_by_xpath(WEAK_TYPES_LIST)
+                    driver.get_web_elements_by_xpath(WEAK_TYPES_LIST)
             ]
 
 def click_cookies():
     try:
-        common.click_on_element_by_xpath(BUTTON_COOKIES)
+        driver.click_on_element_by_xpath(BUTTON_COOKIES)
     except:
         print('The cookies button has already been pressed')
 
 def hover_to_pokemon_go():
-    common.perform_hover_by_xpath(POKEMON_DROPDOWN)
-    common.perform_hover_by_xpath(VIDEOGAMES_DROPDOWN)
-    common.perform_hover_by_xpath(VIOLET_LINK)
-    common.perform_hover_by_xpath(POKEMON_GO_LINK)
+    driver.perform_hover_by_xpath(POKEMON_DROPDOWN)
+    driver.perform_hover_by_xpath(VIDEOGAMES_DROPDOWN)
+    driver.perform_hover_by_xpath(VIOLET_LINK)
+    driver.perform_hover_by_xpath(POKEMON_GO_LINK)
 
-    common.click_on_element_by_xpath(POKEMON_GO_LINK)
+    driver.click_on_element_by_xpath(POKEMON_GO_LINK)
 
 def go_to_list_events():
     try:
-        common.click_on_element_by_xpath(EVENTS_LIST)
+        driver.click_on_element_by_xpath(EVENTS_LIST)
     except ElementClickInterceptedException:
         click_cookies()
 
 def get_event_by_year(year):
     event = EVENT_BY_YEAR.replace('YEAR', year)
-    common.click_on_element_by_xpath(event)
+    driver.click_on_element_by_xpath(event)
 
 def get_event_start_date(event, year):
     event_table = EVENT_START_DATE.replace('EVENT_START', event.replace(' ', '_'))
     event_table = event_table.replace('YEAR_EVENT', year)
-    return common.get_text_by_xpath(event_table)
+    return driver.get_text_by_xpath(event_table)

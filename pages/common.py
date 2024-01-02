@@ -1,51 +1,75 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-driver = webdriver.Chrome('')
-wait = WebDriverWait(driver, timeout=2.5)
-actions = ActionChains(driver)
+class Common:
 
-def go_to_url(url):
-    driver.get(url)
+    def __init__(self):
+        self.reset()
 
-def perform_hover_by_xpath(element_xpath):
-    element = driver.find_element(By.XPATH, element_xpath)
-    actions.move_to_element(element)
-    actions.perform()
+    def reset(self):
+        desired_browser = os.environ['DRIVER_BROWSER']
+        desired_timeout = float(os.environ['TIMEOUT'])
 
-def perform_hover_by_element(element):
-    actions.move_to_element(element)
-    actions.perform()
+        if desired_browser == 'chrome':
+            self.driver = webdriver.Chrome('')
 
-def get_web_elements_by_xpath(xpath):
-    return driver.find_elements(By.XPATH, xpath)
+        elif desired_browser == 'firefox':
+            self.driver = webdriver.Firefox('')
 
-def get_web_element_by_xpath(xpath):
-    return driver.find_element(By.XPATH, xpath)
+        elif desired_browser == 'edge':
+            self.driver = webdriver.Edge('')
 
-def get_text_by_xpath(xpath):
-    return get_web_element_by_xpath(xpath).text
+        elif desired_browser == 'safari':
+            self.driver = webdriver.Safari('')
 
-def send_keys_by_xpath(xpath, keys):
-    get_web_element_by_xpath(xpath).send_keys(keys)
+        self.wait = WebDriverWait(self.driver, timeout = desired_timeout)
+        self.actions = ActionChains(self.driver)
+        
+    def close_driver(self):
+        self.driver.quit()
 
-def click_on_element_by_xpath(xpath):
-    get_web_element_by_xpath(xpath).click()
+    def go_to_url(self, url):
+        self.driver.get(url)
 
-def wait_until_web_element_is_displayed_by_xpath(xpath):
-    wait.until(lambda d : get_web_element_by_xpath(xpath)).is_displayed()
+    def perform_hover_by_xpath(self, element_xpath):
+        element = self.driver.find_element(By.XPATH, element_xpath)
+        self.actions.move_to_element(element)
+        self.actions.perform()
 
-def wait_until_url_does_not_contain_string(string):
-    wait.until(EC.none_of(EC.url_contains(string)))
+    def perform_hover_by_element(self, element):
+        self.actions.move_to_element(element)
+        self.actions.perform()
 
-def go_to_previous_tab():
-    driver.back()
+    def get_web_elements_by_xpath(self, xpath):
+        return self.driver.find_elements(By.XPATH, xpath)
 
-def implicit_wait(seconds):
-    driver.implicitly_wait(seconds)
+    def get_web_element_by_xpath(self, xpath):
+        return self.driver.find_element(By.XPATH, xpath)
 
-def get_current_url():
-    return driver.current_url
+    def get_text_by_xpath(self, xpath):
+        return self.get_web_element_by_xpath(xpath).text
+
+    def send_keys_by_xpath(self, xpath, keys):
+        self.get_web_element_by_xpath(xpath).send_keys(keys)
+
+    def click_on_element_by_xpath(self, xpath):
+        self.get_web_element_by_xpath(xpath).click()
+
+    def wait_until_web_element_is_displayed_by_xpath(self, xpath):
+        self.wait.until(lambda d : self.get_web_element_by_xpath(xpath)).is_displayed()
+
+    def wait_until_url_does_not_contain_string(self, string):
+        self.wait.until(EC.none_of(EC.url_contains(string)))
+
+    def go_to_previous_tab(self):
+        self.driver.back()
+
+    def implicit_wait(self, seconds):
+        self.driver.implicitly_wait(seconds)
+
+    def get_current_url(self):
+        return self.driver.current_url

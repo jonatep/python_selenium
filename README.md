@@ -62,6 +62,17 @@ Configurando un archivo ``launch.json`` en VSCode podremos personalizar cómo se
     }
 En caso de querer ejecutar todos los tests habría que eliminar la línea de ``"--tags=\"@test\""``. Una vez configurado este archivo, se puede ejecutar estando en el archivo ``runner.py``
 
+## Ajustes en ejecución
+
+En el archivo ``environment.py`` se puede ajustar el navegador web en el que ejecutar los tests y el tiempo de "timeout" de los mismos. Para ello hay que modificar el valor de las variables:
+
+- ``os.environ['DRIVER_BROWSER']``
+	- ``'chrome'``: Ejecutar Google Chrome
+	- ``'firefox'``: Ejecutar Mozilla Firefox
+	- ``'edge'``: Ejecutar Microsoft Edge
+	- ``'safari'``: Ejecutar Safari
+ - ``os.environ['TIMEOUT']``
+ 	- El valor deseado
 # Generación de reportes
 
 Con la configuración por defecto del ``runner.py`` se generarán reportes acerca de la ejecución de los tests. Pero para poder visualizarlos hay que cumplir una serie de pasos previos. 

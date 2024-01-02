@@ -1,7 +1,7 @@
 import re
 import math
 from selenium.common.exceptions import NoSuchElementException
-from . import common
+from pages.common import Common
 
 VARIATIONS_TO_PRODUCT = "//div[@id='inline-twister-expander-content-color_name']\
                             //li[not(contains(@class, 'swatch-prototype'))]\
@@ -34,21 +34,23 @@ SPECIFIC_CURRENCY = "//div[contains(@class, 'wrapper')]\
 CONFIRM_CURRENCY_BUTTON = "(//span[contains(@id, 'save-button')])[1]\
                                 //input"
 
+driver = Common()
+
 def browse_to_amazon():
-    common.go_to_url('https://www.amazon.com/')
+    driver.go_to_url('https://www.amazon.com/')
 
 def go_to_product(product):
-    common.go_to_url(product)
+    driver.go_to_url(product)
 
 def is_image_changing_when_hovering():
-    elements = common.get_web_elements_by_xpath(VARIATIONS_TO_PRODUCT)
+    elements = driver.get_web_elements_by_xpath(VARIATIONS_TO_PRODUCT)
     res = True
-    common.wait_until_web_element_is_displayed_by_xpath(MAIN_IMAGE_PRODUCT)
-    previous_image = common.get_web_element_by_xpath(MAIN_IMAGE_PRODUCT).get_attribute('src')
+    driver.wait_until_web_element_is_displayed_by_xpath(MAIN_IMAGE_PRODUCT)
+    previous_image = driver.get_web_element_by_xpath(MAIN_IMAGE_PRODUCT).get_attribute('src')
 
     for element in elements[1:]:
-        common.perform_hover_by_element(element)
-        current_image = common.get_web_element_by_xpath(
+        driver.perform_hover_by_element(element)
+        current_image = driver.get_web_element_by_xpath(
                 ALTERNATING_IMAGE_PRODUCT
             ).get_attribute('src')
 
@@ -61,14 +63,14 @@ def get_discount(price, discounted_price):
 
 def is_discount_accurate():
     try:
-        discount_price_fraction_text = common.get_text_by_xpath(DISCOUNT_PRICE_FRACTION)
+        discount_price_fraction_text = driver.get_text_by_xpath(DISCOUNT_PRICE_FRACTION)
     except NoSuchElementException:
         print("This product currently doesn't have a discount")
         return False
 
-    original_price_text = common.get_text_by_xpath(ORIGINAL_PRICE)
-    discount_price_whole_text = common.get_text_by_xpath(DISCOUNT_PRICE_WHOLE)
-    discount_percentage_text = common.get_text_by_xpath(DISCOUNT)
+    original_price_text = driver.get_text_by_xpath(ORIGINAL_PRICE)
+    discount_price_whole_text = driver.get_text_by_xpath(DISCOUNT_PRICE_WHOLE)
+    discount_percentage_text = driver.get_text_by_xpath(DISCOUNT)
 
     discount_price_text = discount_price_whole_text + "." + discount_price_fraction_text
     original_price_text = re.findall("\\d+.\\d+", original_price_text)[0]
@@ -79,31 +81,31 @@ def is_discount_accurate():
     return (float(discount_percentage_text) - math.trunc(discount_percentage_shown)) < 2
 
 def click_on_coupon_checkbox():
-    checkbox_coupon_element = common.get_web_element_by_xpath(CHECKBOX_COUPON)
+    checkbox_coupon_element = driver.get_web_element_by_xpath(CHECKBOX_COUPON)
     checkbox_coupon_element.click()
 
 def is_checkbox_selected():
-    checkbox = common.get_web_element_by_xpath(CHECKBOX_INPUT)
+    checkbox = driver.get_web_element_by_xpath(CHECKBOX_INPUT)
     return checkbox.is_selected()
 
 def go_to_currency_change_page():
-    common.perform_hover_by_xpath(LANGUAGE_NAV_TOOL)
-    common.wait_until_web_element_is_displayed_by_xpath(CHANGE_CURRENCY_LINK)
-    common.click_on_element_by_xpath(CHANGE_CURRENCY_LINK)
+    driver.perform_hover_by_xpath(LANGUAGE_NAV_TOOL)
+    driver.wait_until_web_element_is_displayed_by_xpath(CHANGE_CURRENCY_LINK)
+    driver.click_on_element_by_xpath(CHANGE_CURRENCY_LINK)
 
 def select_currency_from_dropdown(currency):
-    common.click_on_element_by_xpath(CURRENCY_DROPDOWN)
+    driver.click_on_element_by_xpath(CURRENCY_DROPDOWN)
     specific_currency_replaced = SPECIFIC_CURRENCY.replace('CURRENCY', currency)
-    common.click_on_element_by_xpath(specific_currency_replaced)
-    common.click_on_element_by_xpath(CONFIRM_CURRENCY_BUTTON)
+    driver.click_on_element_by_xpath(specific_currency_replaced)
+    driver.click_on_element_by_xpath(CONFIRM_CURRENCY_BUTTON)
 
 
 def get_current_currency():
-    common.wait_until_url_does_not_contain_string("customer-preferences")
+    driver.wait_until_url_does_not_contain_string("customer-preferences")
     preceding_sibling = "/preceding-sibling::span"
     current_currency = CHANGE_CURRENCY_LINK + preceding_sibling
-    common.perform_hover_by_xpath(LANGUAGE_NAV_TOOL)
-    common.wait_until_web_element_is_displayed_by_xpath(CHANGE_CURRENCY_LINK)
-    current_currency_text = common.get_text_by_xpath(current_currency)
+    driver.perform_hover_by_xpath(LANGUAGE_NAV_TOOL)
+    driver.wait_until_web_element_is_displayed_by_xpath(CHANGE_CURRENCY_LINK)
+    current_currency_text = driver.get_text_by_xpath(current_currency)
     current_currency_text = re.match(".* *(\\w{3}) - .+", current_currency_text).group(1)
     return current_currency_text
