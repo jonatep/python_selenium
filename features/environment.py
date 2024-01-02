@@ -9,7 +9,22 @@ POKEMON_TAG = 'pokemon'
 os.environ['DRIVER_BROWSER'] = 'chrome'
 os.environ['TIMEOUT'] = '2.5'
 
+def set_up(context):
+    userdata = context.config.userdata
+    try:
+        if userdata['browser']:
+            os.environ['DRIVER_BROWSER'] = userdata['browser']
+    except KeyError:
+        print("No browser was indicated via the userdata")
+    try:
+        if userdata['timeout']:
+            os.environ['TIMEOUT'] = userdata['timeout']
+    except KeyError:
+        print("No timeout was specified via the userdata")
+
+
 def before_scenario(context, scenario):
+    set_up(context)
     if AMAZON_TAG in context.tags:
         context.execute_steps(u'''
             given I have started a new amazon test
