@@ -73,6 +73,14 @@ En el archivo ``environment.py`` se puede ajustar el navegador web en el que eje
 	- ``'safari'``: Ejecutar Safari
  - ``os.environ['TIMEOUT']``
  	- El valor deseado
+
+  También es posible especificar o el navegador o el timeout, no ambos a la vez, en el comando de ejecución de los tests de behave. Simplemente hay que añadir al comando 'behave':
+
+  - ``-D browser=navegador``, siendo las opciones de 'navegador' las mostradas previamente
+  - ``-D timeout=tiempo``
+
+ En caso de haber especificado un navegador o timeout tanto como variable de entorno como a través del comando, el valor especificado en el comando behave tendrá preferencia. 
+ 
 # Generación de reportes
 
 Con la configuración por defecto del ``runner.py`` se generarán reportes acerca de la ejecución de los tests. Pero para poder visualizarlos hay que cumplir una serie de pasos previos. 
